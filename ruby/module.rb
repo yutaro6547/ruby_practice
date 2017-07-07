@@ -6,6 +6,10 @@ end
 
 class Alice
   include Greetable
+  def greet_to(name)
+    super
+    puts 'Nice to meet you'
+  end
 end
 
 alice = Alice.new
