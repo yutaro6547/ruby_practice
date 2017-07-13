@@ -11,3 +11,8 @@ class Klass
     @@class_val
   end
 end
+
+class InheritKlass < Klass
+  @class_instance_val # => nil
+  @@class_val # => :class_val
+end
