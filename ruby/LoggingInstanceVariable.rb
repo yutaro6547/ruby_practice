@@ -1,19 +1,27 @@
 class LoggingInstanceVariable
-  attr_reader :first_val, :before_first_val
+  logging_instance_val_names = %w(first_val second_val third_val)
 
-  def first_val=(val)
-    @before_first_val = @first_val
-    @first_val = val
+  logging_instance_val_names.each do |val_name|
+    eval <<-END_OF_DEF
+      attr_reader :#{val_name}, :before_#{val_name}
+
+      def #{val_name}=(val)
+        @before_#{val_name} = @#{val_name}
+        @#{val_name} = val
+      end
+    END_OF_DEF
   end
 end
 
 obj = LoggingInstanceVariable.new
 
 obj.first_val = 1
-puts obj.first_val
-# 初期化していないインスタンス変数の最初の値はnil
-puts obj.before_first_val
-
 obj.first_val = 2
 puts obj.first_val
 puts obj.before_first_val
+
+obj.third_val = :third_val
+obj.third_val = 'third_val'
+
+puts obj.third_val
+puts obj.before_third_val
